@@ -9,7 +9,6 @@
 - 修复"关游戏卡住、只能用任务管理器结束进程"的问题
 - VNGE / Unity Console 保持启用，游戏内功能不受影响
 - 只接管退出流程，不改变游戏内行为
-- 在 `BepInEx\VngeQuitFix.log` 留下简短日志，便于排查
 
 ## 为什么会卡死？
 
@@ -26,14 +25,14 @@ VNGE 的控制台宿主（`Unity.Console.BepInEx.dll`）通过 `UC.UnityConsole.
 
 ## 验证
 
-正常退出后，`BepInEx\VngeQuitFix.log` 里应包含：
+正常退出后，游戏目录下的 `output_log.txt` 里应包含：
 
 ```
-hooked Unity.ConsoleK.BepInEx.ConsolePlugin::OnDisable
---- OnDisable intercepted ---
-WriteConsoleInput ok=True written=2
-after inject: waited=50ms alive=False
-REPL thread exited -> skip original shutdown
+[Info   :VNGE Quit Fix] [QuitFix] hooked Unity.ConsoleK.BepInEx.ConsolePlugin::OnDisable
+[Info   :VNGE Quit Fix] [QuitFix] --- OnDisable intercepted ---
+[Info   :VNGE Quit Fix] [QuitFix] WriteConsoleInput ok=True written=2
+[Info   :VNGE Quit Fix] [QuitFix] after inject: waited=50ms alive=False
+[Info   :VNGE Quit Fix] [QuitFix] REPL thread exited -> skip original shutdown
 ```
 
 ## 卸载
@@ -42,7 +41,7 @@ REPL thread exited -> skip original shutdown
 
 ## 兼容性
 
-- Koikatu / CharaStudio（`CharaStudio.exe`，Unity 5.6.2f1，BepInEx 5.4.22）
+- Koikatu / CharaStudio（Unity 5.6.2f1，BepInEx 5.4.22）
 - VNGE / Unity Console v45.1
 - 已在 Windows 11 上测试
 

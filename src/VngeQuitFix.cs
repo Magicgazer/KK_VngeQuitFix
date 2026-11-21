@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using BepInEx;
 using BepInEx.Logging;
@@ -24,11 +23,10 @@ namespace VngeQuitFix
     /// skip the original shutdown. The thread is a background thread, so once it exits the
     /// process can quit normally.
     /// </summary>
-    [BepInPlugin("org.dsh.vngequitfix", "VNGE Quit Fix", "1.1.0")]
+    [BepInPlugin("org.dsh.vngequitfix", "VNGE Quit Fix", "1.1.1")]
     public class FixPlugin : BaseUnityPlugin
     {
         internal static ManualLogSource LogSource;
-        private static string _logPath;
         private static bool _hooked;
 
         [DllImport("kernel32.dll", SetLastError = true)] private static extern bool FreeConsole();
@@ -53,11 +51,8 @@ namespace VngeQuitFix
         private void Awake()
         {
             LogSource = Logger;
-            try { _logPath = Path.Combine(Paths.BepInExRootPath, "VngeQuitFix.log"); }
-            catch { _logPath = "VngeQuitFix.log"; }
-            try { if (File.Exists(_logPath)) File.Delete(_logPath); } catch { }
 
-            Log("=== VNGE Quit Fix 1.1 loaded (" + Path.GetFileName(Assembly.GetExecutingAssembly().Location) + ") ===");
+            Log("=== VNGE Quit Fix 1.1.1 loaded (" + Path.GetFileName(Assembly.GetExecutingAssembly().Location) + ") ===");
             TryHook();
 
             Thread t = new Thread(delegate ()
@@ -116,12 +111,6 @@ namespace VngeQuitFix
             try
             {
                 if (!ReferenceEquals(LogSource, null)) LogSource.LogInfo("[QuitFix] " + s);
-            }
-            catch { }
-            try
-            {
-                if (!string.IsNullOrEmpty(_logPath))
-                    File.AppendAllText(_logPath, DateTime.Now.ToString("HH:mm:ss.fff") + " " + s + "\r\n", Encoding.UTF8);
             }
             catch { }
         }

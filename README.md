@@ -9,7 +9,6 @@ A small BepInEx plugin that fixes **CharaStudio hanging when you close the windo
 - Fixes the "game freezes on exit, must be killed from Task Manager" issue
 - Keeps VNGE / Unity Console fully working (no feature loss)
 - Only touches the shutdown path; in-game behaviour is unchanged
-- Writes a short `BepInEx\VngeQuitFix.log` for troubleshooting
 
 ## Why does it hang?
 
@@ -26,14 +25,14 @@ This plugin intercepts `ConsolePlugin.OnDisable`, injects `Ctrl+Z` + `Enter` its
 
 ## Verify
 
-After a normal exit, `BepInEx\VngeQuitFix.log` should contain:
+After a normal exit, `output_log.txt` in the game folder should contain:
 
 ```
-hooked Unity.ConsoleK.BepInEx.ConsolePlugin::OnDisable
---- OnDisable intercepted ---
-WriteConsoleInput ok=True written=2
-after inject: waited=50ms alive=False
-REPL thread exited -> skip original shutdown
+[Info   :VNGE Quit Fix] [QuitFix] hooked Unity.ConsoleK.BepInEx.ConsolePlugin::OnDisable
+[Info   :VNGE Quit Fix] [QuitFix] --- OnDisable intercepted ---
+[Info   :VNGE Quit Fix] [QuitFix] WriteConsoleInput ok=True written=2
+[Info   :VNGE Quit Fix] [QuitFix] after inject: waited=50ms alive=False
+[Info   :VNGE Quit Fix] [QuitFix] REPL thread exited -> skip original shutdown
 ```
 
 ## Uninstall
@@ -42,7 +41,7 @@ Delete `BepInEx\plugins\VngeQuitFix.dll`. The hang will come back.
 
 ## Compatibility
 
-- Koikatu / CharaStudio (`CharaStudio.exe`, Unity 5.6.2f1, BepInEx 5.4.22)
+- Koikatu / CharaStudio (Unity 5.6.2f1, BepInEx 5.4.22)
 - VNGE / Unity Console v45.1
 - Tested on Windows 11
 
